@@ -92,21 +92,21 @@ specifying the different configuration values:
 
 .. code-block:: python
 
-    >>> import ssl
-    >>> from kmip.pie.client import ProxyKmipClient, enums
-    >>> client = ProxyKmipClient(
-    ...     hostname='127.0.0.1',
-    ...     port=5696,
-    ...     cert='/path/to/certificate/file',
-    ...     key='/path/to/certificate/key/file',
-    ...     ca='/path/to/ca/certificate/file',
-    ...     ssl_version=ssl.PROTOCOL_SSLv23,
-    ...     username='example_username',
-    ...     password='example_password',
-    ...     config='client',
-    ...     config_file='/etc/pykmip/pykmip.conf',
-    ...     kmip_version=enums.KMIPVersion.KMIP_1_2
-    ... )
+    import ssl
+    from kmip.pie.client import ProxyKmipClient, enums
+    client = ProxyKmipClient(
+         hostname='127.0.0.1',
+         port=5696,
+         cert='/path/to/certificate/file',
+         key='/path/to/certificate/key/file',
+         ca='/path/to/ca/certificate/file',
+         ssl_version=ssl.PROTOCOL_SSLv23,
+         username='example_username',
+         password='example_password',
+         config='client',
+         config_file='/etc/pykmip/pykmip.conf',
+         kmip_version=enums.KMIPVersion.KMIP_1_2
+    )
 
 Settings specified at runtime, as in the above example, will take precedence
 over the default values found in the configuration file.
@@ -203,21 +203,21 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> with c:
-            ...     key_id = c.register(symmetric_key)
-            ...     c.activate(key_id)
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            with c:
+                key_id = c.register(symmetric_key)
+                c.activate(key_id)
 
     .. py:method:: check(uid=None, usage_limits_count=None, cryptographic_usage_mask=None, lease_time=None)
 
@@ -242,13 +242,13 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.check(
-            ...         uid="1",
-            ...         usage_limits_count=50
-            ...     )
+            from kmip.pie import client
+            c = client.ProxyKmipClient()
+            with c:
+                c.check(
+                    uid="1",
+                    usage_limits_count=50
+                )
             '1'
 
     .. py:method:: create(algorithm, length, operation_policy_name=None, name=None, cryptographic_usage_mask=None)
@@ -281,20 +281,20 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     key_id = c.create(
-            ...         enums.CryptographicAlgorithm.AES,
-            ...         256,
-            ...         operation_policy_name='default',
-            ...         name='Test_256_AES_Symmetric_Key',
-            ...         cryptographic_usage_mask=[
-            ...             enums.CryptographicUsageMask.ENCRYPT,
-            ...             enums.CryptographicUsageMask.DECRYPT
-            ...         ]
-            ...     )
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            with c:
+                key_id = c.create(
+                    enums.CryptographicAlgorithm.AES,
+                    256,
+                    operation_policy_name='default',
+                    name='Test_256_AES_Symmetric_Key',
+                    cryptographic_usage_mask=[
+                        enums.CryptographicUsageMask.ENCRYPT,
+                        enums.CryptographicUsageMask.DECRYPT
+                    ]
+                )
             '449'
 
     .. py:method:: create_key_pair(algorithm, length, operation_policy_name=None, public_name=None, public_usage_mask=None, private_name=None, private_usage_mask=None)
@@ -334,23 +334,23 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     key_id = c.create_key_pair(
-            ...         enums.CryptographicAlgorithm.RSA,
-            ...         2048,
-            ...         operation_policy_name='default',
-            ...         public_name='Test_2048_RSA_Public_Key',
-            ...         public_usage_mask=[
-            ...             enums.CryptographicUsageMask.VERIFY
-            ...         ],
-            ...         private_name='Test_2048_RSA_Private_Key',
-            ...         private_usage_mask=[
-            ...             enums.CryptographicUsageMask.SIGN
-            ...         ]
-            ...     )
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            with c:
+                key_id = c.create_key_pair(
+                    enums.CryptographicAlgorithm.RSA,
+                    2048,
+                    operation_policy_name='default',
+                    public_name='Test_2048_RSA_Public_Key',
+                    public_usage_mask=[
+                        enums.CryptographicUsageMask.VERIFY
+                    ],
+                    private_name='Test_2048_RSA_Private_Key',
+                    private_usage_mask=[
+                        enums.CryptographicUsageMask.SIGN
+                    ]
+                )
             ('450', '451')
 
     .. py:method:: decrypt(data, uid=None, cryptographic_parameters=None, iv_counter_nonce=None)
@@ -380,38 +380,38 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     key_id = c.create(
-            ...         enums.CryptographicAlgorithm.AES,
-            ...         256,
-            ...         cryptographic_usage_mask=[
-            ...             enums.CryptographicUsageMask.ENCRYPT,
-            ...             enums.CryptographicUsageMask.DECRYPT
-            ...         ]
-            ...     )
-            ...     c.activate(key_id)
-            ...     c.decrypt(
-            ...         (
-            ...             b' \xb6:s0\x16\xea\t\x1b\x16\xed\xb2\x04-\xd6'
-            ...             b'\xb6\\\xf3xJ\xfe\xa7[\x1eJ\x08I\xae\x14\xd2'
-            ...             b\xdb\xe2'
-            ...         ),
-            ...         uid=key_id,
-            ...         cryptographic_parameters={
-            ...             'cryptographic_algorithm':
-            ...                 enums.CryptographicAlgorithm.AES,
-            ...             'block_cipher_mode': enums.BlockCipherMode.CBC,
-            ...             'padding_method': enums.PaddingMethod.PKCS5
-            ...         },
-            ...         iv_counter_nonce=(
-            ...             b'\x85\x1e\x87\x64\x77\x6e\x67\x96'
-            ...             b'\xaa\xb7\x22\xdb\xb6\x44\xac\xe8'
-            ...         )
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            with c:
+                key_id = c.create(
+                    enums.CryptographicAlgorithm.AES,
+                    256,
+                    cryptographic_usage_mask=[
+                        enums.CryptographicUsageMask.ENCRYPT,
+                        enums.CryptographicUsageMask.DECRYPT
+                    ]
+                )
+                c.activate(key_id)
+                c.decrypt(
+                    (
+                        b' \xb6:s0\x16\xea\t\x1b\x16\xed\xb2\x04-\xd6'
+                        b'\xb6\\\xf3xJ\xfe\xa7[\x1eJ\x08I\xae\x14\xd2'
+                        b\xdb\xe2'
+                    ),
+                    uid=key_id,
+                    cryptographic_parameters={
+                        'cryptographic_algorithm':
+                            enums.CryptographicAlgorithm.AES,
+                        'block_cipher_mode': enums.BlockCipherMode.CBC,
+                        'padding_method': enums.PaddingMethod.PKCS5
+                    },
+                    iv_counter_nonce=(
+                        b'\x85\x1e\x87\x64\x77\x6e\x67\x96'
+                        b'\xaa\xb7\x22\xdb\xb6\x44\xac\xe8'
+                    )
+                )
             ...
             b'This is a secret message.'
 
@@ -438,14 +438,14 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.delete_attribute(
-            ...         unique_identifier="1",
-            ...         attribute_name="Name",
-            ...         attribute_index=0
-            ...     )
+            from kmip.pie import client
+            c = client.ProxyKmipClient()
+            with c:
+                c.delete_attribute(
+                    unique_identifier="1",
+                    attribute_name="Name",
+                    attribute_index=0
+                )
             ('1', Attribute(...))
 
         For KMIP 2.0+, the supported `kwargs` values are:
@@ -455,24 +455,24 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> from kmip.core import objects, primitives
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.delete_attribute(
-            ...         unique_identifier="1",
-            ...         current_attribute=objects.CurrentAttribute(
-            ...             attribute=primitives.TextString(
-            ...                 value="Object Group 1",
-            ...                 tag=enums.Tags.OBJECT_GROUP
-            ...             ),
-            ...         ),
-            ...         attribute_reference=objects.AttributeReference(
-            ...             vendor_identification="Vendor 1",
-            ...             attribute_name="Object Group"
-            ...         )
-            ...     )
+            from kmip.pie import client
+            from kmip import enums
+            from kmip.core import objects, primitives
+            c = client.ProxyKmipClient()
+            with c:
+                c.delete_attribute(
+                    unique_identifier="1",
+                    current_attribute=objects.CurrentAttribute(
+                        attribute=primitives.TextString(
+                            value="Object Group 1",
+                            tag=enums.Tags.OBJECT_GROUP
+                        ),
+                    ),
+                    attribute_reference=objects.AttributeReference(
+                        vendor_identification="Vendor 1",
+                        attribute_name="Object Group"
+                    )
+                )
             '1'
 
     .. py:method:: derive_key(object_type, unique_identifiers, derivation_method, derivation_parameters, **kwargs)
@@ -509,35 +509,35 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> secret_data = objects.SecretData(
-            ...     b'password',
-            ...     enums.SecretDataType.PASSWORD,
-            ...     masks=[
-            ...         enums.CryptographicUsageMask.DERIVE_KEY
-            ...     ]
-            ... )
-            >>> with c:
-            ...     password_id = c.register(secret_data)
-            ...     c.activate(password_id)
-            ...     c.derive_key(
-            ...         enums.ObjectType.SYMMETRIC_KEY,
-            ...         [password_id],
-            ...         enums.DerivationMethod.PBKDF2,
-            ...         {
-            ...             'cryptographic_parameters': {
-            ...                 'hashing_algorithm':
-            ...                     enums.HashingAlgorithm.SHA_1
-            ...             },
-            ...             'salt': b'salt',
-            ...             'iteration_count': 4096
-            ...         },
-            ...         cryptographic_length=128,
-            ...         cryptographic_algorithm=enums.CryptographicAlgorithm.AES
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            secret_data = objects.SecretData(
+                b'password',
+                enums.SecretDataType.PASSWORD,
+                masks=[
+                    enums.CryptographicUsageMask.DERIVE_KEY
+                ]
+            )
+            with c:
+                password_id = c.register(secret_data)
+                c.activate(password_id)
+                c.derive_key(
+                    enums.ObjectType.SYMMETRIC_KEY,
+                    [password_id],
+                    enums.DerivationMethod.PBKDF2,
+                    {
+                        'cryptographic_parameters': {
+                            'hashing_algorithm':
+                                enums.HashingAlgorithm.SHA_1
+                        },
+                        'salt': b'salt',
+                        'iteration_count': 4096
+                    },
+                    cryptographic_length=128,
+                    cryptographic_algorithm=enums.CryptographicAlgorithm.AES
+                )
             ...
             '454'
 
@@ -545,47 +545,47 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.BLOWFISH,
-            ...     128,
-            ...     (
-            ...         b'\x01\x23\x45\x67\x89\xAB\xCD\xEF'
-            ...         b'\xF0\xE1\xD2\xC3\xB4\xA5\x96\x87'
-            ...     ),
-            ...     masks=[
-            ...         enums.CryptographicUsageMask.DERIVE_KEY
-            ...     ]
-            ... )
-            >>> with c:
-            ...     key_id = c.register(key)
-            ...     c.activate(key_id)
-            ...     c.derive_key(
-            ...         enums.ObjectType.SECRET_DATA,
-            ...         [key_id],
-            ...         enums.DerivationMethod.ENCRYPT,
-            ...         {
-            ...             'cryptographic_parameters': {
-            ...                 'block_cipher_mode': enums.BlockCipherMode.CBC,
-            ...                 'padding_method': enums.PaddingMethod.PKCS5,
-            ...                 'cryptographic_algorithm':
-            ...                     enums.CryptographicAlgorithm.BLOWFISH
-            ...             },
-            ...             'initialization_vector': (
-            ...                 b'\xFE\xDC\xBA\x98\x76\x54\x32\x10'
-            ...             ),
-            ...             'derivation_data': (
-            ...                 b'\x37\x36\x35\x34\x33\x32\x31\x20'
-            ...                 b'\x4E\x6F\x77\x20\x69\x73\x20\x74'
-            ...                 b'\x68\x65\x20\x74\x69\x6D\x65\x20'
-            ...                 b'\x66\x6F\x72\x20\x00'
-            ...             )
-            ...         },
-            ...         cryptographic_length=256
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.BLOWFISH,
+                128,
+                (
+                    b'\x01\x23\x45\x67\x89\xAB\xCD\xEF'
+                    b'\xF0\xE1\xD2\xC3\xB4\xA5\x96\x87'
+                ),
+                masks=[
+                    enums.CryptographicUsageMask.DERIVE_KEY
+                ]
+            )
+            with c:
+                key_id = c.register(key)
+                c.activate(key_id)
+                c.derive_key(
+                    enums.ObjectType.SECRET_DATA,
+                    [key_id],
+                    enums.DerivationMethod.ENCRYPT,
+                    {
+                        'cryptographic_parameters': {
+                            'block_cipher_mode': enums.BlockCipherMode.CBC,
+                            'padding_method': enums.PaddingMethod.PKCS5,
+                            'cryptographic_algorithm':
+                                enums.CryptographicAlgorithm.BLOWFISH
+                        },
+                        'initialization_vector': (
+                            b'\xFE\xDC\xBA\x98\x76\x54\x32\x10'
+                        ),
+                        'derivation_data': (
+                            b'\x37\x36\x35\x34\x33\x32\x31\x20'
+                            b'\x4E\x6F\x77\x20\x69\x73\x20\x74'
+                            b'\x68\x65\x20\x74\x69\x6D\x65\x20'
+                            b'\x66\x6F\x72\x20\x00'
+                        )
+                    },
+                    cryptographic_length=256
+                )
             ...
             '456'
 
@@ -593,53 +593,53 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     512,
-            ...     (
-            ...         b'\xdd\x5d\xbd\x45\x59\x3e\xe2\xac'
-            ...         b'\x13\x97\x48\xe7\x64\x5b\x45\x0f'
-            ...         b'\x22\x3d\x2f\xf2\x97\xb7\x3f\xd7'
-            ...         b'\x1c\xbc\xeb\xe7\x1d\x41\x65\x3c'
-            ...         b'\x95\x0b\x88\x50\x0d\xe5\x32\x2d'
-            ...         b'\x99\xef\x18\xdf\xdd\x30\x42\x82'
-            ...         b'\x94\xc4\xb3\x09\x4f\x4c\x95\x43'
-            ...         b'\x34\xe5\x93\xbd\x98\x2e\xc6\x14'
-            ...     ),
-            ...     masks=[
-            ...         enums.CryptographicUsageMask.DERIVE_KEY
-            ...     ]
-            ... )
-            >>> with c:
-            ...     key_id = c.register(key)
-            ...     c.activate(key_id)
-            ...     c.derive_key(
-            ...         enums.ObjectType.SYMMETRIC_KEY,
-            ...         [key_id],
-            ...         enums.DerivationMethod.NIST800_108_C,
-            ...         {
-            ...             'cryptographic_parameters': {
-            ...                 'hashing_algorithm':
-            ...                     enums.HashingAlgorithm.SHA_512
-            ...             },
-            ...             'derivation_data': (
-            ...                 b'\xb5\x0b\x0c\x96\x3c\x6b\x30\x34'
-            ...                 b'\xb8\xcf\x19\xcd\x3f\x5c\x4e\xbe'
-            ...                 b'\x4f\x49\x85\xaf\x0c\x03\xe5\x75'
-            ...                 b'\xdb\x62\xe6\xfd\xf1\xec\xfe\x4f'
-            ...                 b'\x28\xb9\x5d\x7c\xe1\x6d\xf8\x58'
-            ...                 b'\x43\x24\x6e\x15\x57\xce\x95\xbb'
-            ...                 b'\x26\xcc\x9a\x21\x97\x4b\xbd\x2e'
-            ...                 b'\xb6\x9e\x83\x55'
-            ...             )
-            ...         },
-            ...         cryptographic_length=128,
-            ...         cryptographic_algorithm=enums.CryptographicAlgorithm.AES
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                512,
+                (
+                    b'\xdd\x5d\xbd\x45\x59\x3e\xe2\xac'
+                    b'\x13\x97\x48\xe7\x64\x5b\x45\x0f'
+                    b'\x22\x3d\x2f\xf2\x97\xb7\x3f\xd7'
+                    b'\x1c\xbc\xeb\xe7\x1d\x41\x65\x3c'
+                    b'\x95\x0b\x88\x50\x0d\xe5\x32\x2d'
+                    b'\x99\xef\x18\xdf\xdd\x30\x42\x82'
+                    b'\x94\xc4\xb3\x09\x4f\x4c\x95\x43'
+                    b'\x34\xe5\x93\xbd\x98\x2e\xc6\x14'
+                ),
+                masks=[
+                    enums.CryptographicUsageMask.DERIVE_KEY
+                ]
+            )
+            with c:
+                key_id = c.register(key)
+                c.activate(key_id)
+                c.derive_key(
+                    enums.ObjectType.SYMMETRIC_KEY,
+                    [key_id],
+                    enums.DerivationMethod.NIST800_108_C,
+                    {
+                        'cryptographic_parameters': {
+                            'hashing_algorithm':
+                                enums.HashingAlgorithm.SHA_512
+                        },
+                        'derivation_data': (
+                            b'\xb5\x0b\x0c\x96\x3c\x6b\x30\x34'
+                            b'\xb8\xcf\x19\xcd\x3f\x5c\x4e\xbe'
+                            b'\x4f\x49\x85\xaf\x0c\x03\xe5\x75'
+                            b'\xdb\x62\xe6\xfd\xf1\xec\xfe\x4f'
+                            b'\x28\xb9\x5d\x7c\xe1\x6d\xf8\x58'
+                            b'\x43\x24\x6e\x15\x57\xce\x95\xbb'
+                            b'\x26\xcc\x9a\x21\x97\x4b\xbd\x2e'
+                            b'\xb6\x9e\x83\x55'
+                        )
+                    },
+                    cryptographic_length=128,
+                    cryptographic_algorithm=enums.CryptographicAlgorithm.AES
+                )
             ...
             '458'
 
@@ -647,38 +647,38 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> secret = objects.SecretData(
-            ...     (
-            ...         b'\x0c\x0c\x0c\x0c\x0c\x0c\x0c\x0c'
-            ...         b'\x0c\x0c\x0c\x0c\x0c\x0c\x0c\x0c'
-            ...         b'\x0c\x0c\x0c\x0c\x0c\x0c'
-            ...     ),
-            ...     enums.SecretDataType.SEED,
-            ...     masks=[
-            ...         enums.CryptographicUsageMask.DERIVE_KEY
-            ...     ]
-            ... )
-            >>> with c:
-            ...     secret_id = c.register(secret)
-            ...     c.activate(secret_id)
-            ...     c.derive_key(
-            ...         enums.ObjectType.SECRET_DATA,
-            ...         [secret_id],
-            ...         enums.DerivationMethod.HMAC,
-            ...         {
-            ...             'cryptographic_parameters': {
-            ...                 'hashing_algorithm':
-            ...                     enums.HashingAlgorithm.SHA_1
-            ...             },
-            ...             'derivation_data': b'',
-            ...             'salt': b''
-            ...         },
-            ...         cryptographic_length=336
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            secret = objects.SecretData(
+                (
+                    b'\x0c\x0c\x0c\x0c\x0c\x0c\x0c\x0c'
+                    b'\x0c\x0c\x0c\x0c\x0c\x0c\x0c\x0c'
+                    b'\x0c\x0c\x0c\x0c\x0c\x0c'
+                ),
+                enums.SecretDataType.SEED,
+                masks=[
+                    enums.CryptographicUsageMask.DERIVE_KEY
+                ]
+            )
+            with c:
+                secret_id = c.register(secret)
+                c.activate(secret_id)
+                c.derive_key(
+                    enums.ObjectType.SECRET_DATA,
+                    [secret_id],
+                    enums.DerivationMethod.HMAC,
+                    {
+                        'cryptographic_parameters': {
+                            'hashing_algorithm':
+                                enums.HashingAlgorithm.SHA_1
+                        },
+                        'derivation_data': b'',
+                        'salt': b''
+                    },
+                    cryptographic_length=336
+                )
             ...
             '460'
 
@@ -700,21 +700,21 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> with c:
-            ...     key_id = c.register(symmetric_key)
-            ...     c.destroy(key_id)
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            with c:
+                key_id = c.register(symmetric_key)
+                c.destroy(key_id)
 
     .. py:method:: encrypt(data, uid=None, cryptographic_parameters=None, iv_counter_nonce=None)
 
@@ -745,34 +745,34 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     key_id = c.create(
-            ...         enums.CryptographicAlgorithm.AES,
-            ...         256,
-            ...         cryptographic_usage_mask=[
-            ...             enums.CryptographicUsageMask.ENCRYPT,
-            ...             enums.CryptographicUsageMask.DECRYPT
-            ...         ]
-            ...     )
-            ...     c.activate(key_id)
-            ...     c.encrypt(
-            ...         b'This is a secret message.',
-            ...         uid=key_id,
-            ...         cryptographic_parameters={
-            ...             'cryptographic_algorithm':
-            ...                 enums.CryptographicAlgorithm.AES,
-            ...             'block_cipher_mode': enums.BlockCipherMode.CBC,
-            ...             'padding_method': enums.PaddingMethod.PKCS5
-            ...         },
-            ...         iv_counter_nonce=(
-            ...             b'\x85\x1e\x87\x64\x77\x6e\x67\x96'
-            ...             b'\xaa\xb7\x22\xdb\xb6\x44\xac\xe8'
-            ...         )
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            with c:
+                key_id = c.create(
+                    enums.CryptographicAlgorithm.AES,
+                    256,
+                    cryptographic_usage_mask=[
+                        enums.CryptographicUsageMask.ENCRYPT,
+                        enums.CryptographicUsageMask.DECRYPT
+                    ]
+                )
+                c.activate(key_id)
+                c.encrypt(
+                    b'This is a secret message.',
+                    uid=key_id,
+                    cryptographic_parameters={
+                        'cryptographic_algorithm':
+                            enums.CryptographicAlgorithm.AES,
+                        'block_cipher_mode': enums.BlockCipherMode.CBC,
+                        'padding_method': enums.PaddingMethod.PKCS5
+                    },
+                    iv_counter_nonce=(
+                        b'\x85\x1e\x87\x64\x77\x6e\x67\x96'
+                        b'\xaa\xb7\x22\xdb\xb6\x44\xac\xe8'
+                    )
+                )
             ...
             (b'...', None)
 
@@ -798,68 +798,68 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> with c:
-            ...     key_id = c.register(symmetric_key)
-            ...     c.get(key_id)
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            with c:
+                key_id = c.register(symmetric_key)
+                c.get(key_id)
             SymmetricKey(...)
 
         Getting a wrapped symmetric key would look like this:
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> wrapping_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x11\x22\x33\x44\x55\x66\x77'
-            ...         b'\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF'
-            ...     ),
-            ...     [
-            ...         enums.CryptographicUsageMask.WRAP_KEY
-            ...     ]
-            ... )
-            >>> with c:
-            ...     key_id = c.register(symmetric_key)
-            ...     wrapping_key_id = c.register(wrapping_key)
-            ...     c.activate(wrapping_key_id)
-            ...     c.get(
-            ...         key_id,
-            ...         key_wrapping_specification={
-            ...             'wrapping_method': enums.WrappingMethod.ENCRYPT,
-            ...             'encryption_key_information': {
-            ...                 'unique_identifier': wrapping_key_id,
-            ...                 'cryptographic_parameters': {
-            ...                     'block_cipher_mode':
-            ...                         enums.BlockCipherMode.NIST_KEY_WRAP
-            ...                 }
-            ...             },
-            ...             'encoding_option': enums.EncodingOption.NO_ENCODING
-            ...         }
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            wrapping_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x11\x22\x33\x44\x55\x66\x77'
+                    b'\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF'
+                ),
+                [
+                    enums.CryptographicUsageMask.WRAP_KEY
+                ]
+            )
+            with c:
+                key_id = c.register(symmetric_key)
+                wrapping_key_id = c.register(wrapping_key)
+                c.activate(wrapping_key_id)
+                c.get(
+                    key_id,
+                    key_wrapping_specification={
+                        'wrapping_method': enums.WrappingMethod.ENCRYPT,
+                        'encryption_key_information': {
+                            'unique_identifier': wrapping_key_id,
+                            'cryptographic_parameters': {
+                                'block_cipher_mode':
+                                    enums.BlockCipherMode.NIST_KEY_WRAP
+                            }
+                        },
+                        'encoding_option': enums.EncodingOption.NO_ENCODING
+                    }
+                )
             SymmetricKey(...)
 
     .. py:method:: get_attributes(uid=None, attribute_names=None)
@@ -893,21 +893,21 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> with c:
-            ...     key_id = c.register(symmetric_key)
-            ...     c.get_attributes(key_id)
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            with c:
+                key_id = c.register(symmetric_key)
+                c.get_attributes(key_id)
             ('458', [Attribute(...), Attribute(...), ...])
 
         Retrieving only a specific attribute for a managed object would look
@@ -915,21 +915,21 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> with c:
-            ...     key_id = c.register(symmetric_key)
-            ...     c.get_attributes(key_id, ['Cryptographic Length'])
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            with c:
+                key_id = c.register(symmetric_key)
+                c.get_attributes(key_id, ['Cryptographic Length'])
             ...
             (
                 '458',
@@ -958,21 +958,21 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> with c:
-            ...     key_id = c.register(symmetric_key)
-            ...     c.get_attribute_list(key_id)
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            with c:
+                key_id = c.register(symmetric_key)
+                c.get_attribute_list(key_id)
             ...
             [
                 'Cryptographic Algorithm',
@@ -1012,20 +1012,20 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> from kmip.core import enums
-            >>> from kmip.core.factories import attributes
-            >>> f = attributes.AttributeFactory()
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.locate(
-            ...         attributes=[
-            ...             f.create_attribute(
-            ...                 enums.AttributeType.OBJECT_TYPE,
-            ...                 enums.ObjectType.SYMMETRIC_KEY
-            ...             )
-            ...         ]
-            ...     )
+            from kmip.pie import client
+            from kmip.core import enums
+            from kmip.core.factories import attributes
+            f = attributes.AttributeFactory()
+            c = client.ProxyKmipClient()
+            with c:
+                c.locate(
+                    attributes=[
+                        f.create_attribute(
+                            enums.AttributeType.OBJECT_TYPE,
+                            enums.ObjectType.SYMMETRIC_KEY
+                        )
+                    ]
+                )
             ['1', '2', '3']
 
     .. py:method:: mac(data, uid=None, algorithm=None)
@@ -1051,14 +1051,14 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.mac(
-            ...         b'\x01\x02\x03\x04',
-            ...         uid="5",
-            ...         algorithm=enums.CryptographicAlgorithm.HMAC_SHA512
-            ...     )
+            from kmip.pie import client
+            c = client.ProxyKmipClient()
+            with c:
+                c.mac(
+                    b'\x01\x02\x03\x04',
+                    uid="5",
+                    algorithm=enums.CryptographicAlgorithm.HMAC_SHA512
+                )
             ('5', b'...')
 
     .. py:method:: modify_attribute(unique_identifier=None, **kwargs)
@@ -1084,20 +1084,20 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> from kmip.core import enums
-            >>> from kmip.core.factories import attributes
-            >>> f = attributes.AttributeFactory()
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.modify_attribute(
-            ...         unique_identifier="1",
-            ...         attribute=f.create_attribute(
-            ...             enums.AttributeType.NAME,
-            ...             "New Name",
-            ...             index=0
-            ...         )
-            ...     )
+            from kmip.pie import client
+            from kmip.core import enums
+            from kmip.core.factories import attributes
+            f = attributes.AttributeFactory()
+            c = client.ProxyKmipClient()
+            with c:
+                c.modify_attribute(
+                    unique_identifier="1",
+                    attribute=f.create_attribute(
+                        enums.AttributeType.NAME,
+                        "New Name",
+                        index=0
+                    )
+                )
             ('1', Attribute(...))
 
         For KMIP 2.0+, the supported `kwargs` values are:
@@ -1107,26 +1107,26 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> from kmip.core import objects, primitives
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.modify_attribute(
-            ...         unique_identifier="1",
-            ...         current_attribute=objects.CurrentAttribute(
-            ...             attribute=primitives.TextString(
-            ...                 value="Old Object Group",
-            ...                 tag=enums.Tags.OBJECT_GROUP
-            ...             ),
-            ...         ),
-            ...         new_attribute=objects.NewAttribute(
-            ...             attribute=primitives.TextString(
-            ...                 value="New Object Group",
-            ...                 tag=enums.Tags.OBJECT_GROUP
-            ...             )
-            ...         )
-            ...     )
+            from kmip.pie import client
+            from kmip import enums
+            from kmip.core import objects, primitives
+            c = client.ProxyKmipClient()
+            with c:
+                c.modify_attribute(
+                    unique_identifier="1",
+                    current_attribute=objects.CurrentAttribute(
+                        attribute=primitives.TextString(
+                            value="Old Object Group",
+                            tag=enums.Tags.OBJECT_GROUP
+                        ),
+                    ),
+                    new_attribute=objects.NewAttribute(
+                        attribute=primitives.TextString(
+                            value="New Object Group",
+                            tag=enums.Tags.OBJECT_GROUP
+                        )
+                    )
+                )
             '1'
 
     .. py:method:: register(managed_object)
@@ -1148,20 +1148,20 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> with c:
-            ...     c.register(symmetric_key)
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            with c:
+                c.register(symmetric_key)
             ...
             '452'
 
@@ -1193,13 +1193,13 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.rekey(
-            ...         uid="1",
-            ...         offset=60
-            ...     )
+            from kmip.pie import client
+            c = client.ProxyKmipClient()
+            with c:
+                c.rekey(
+                    uid="1",
+                    offset=60
+                )
             "2"
 
     .. py:method:: revoke(revocation_reason, uid=None, revocation_message=None, compromise_occurrence_date=None)
@@ -1233,25 +1233,25 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> symmetric_key = objects.SymmetricKey(
-            ...     enums.CryptographicAlgorithm.AES,
-            ...     128,
-            ...     (
-            ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-            ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-            ...     )
-            ... )
-            >>> with c:
-            ...     key_id = c.register(symmetric_key)
-            ...     c.activate(key_id)
-            ...     c.revoke(
-            ...         enums.RevocationReasonCode.CESSATION_OF_OPERATION,
-            ...         key_id
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            symmetric_key = objects.SymmetricKey(
+                enums.CryptographicAlgorithm.AES,
+                128,
+                (
+                    b'\x00\x01\x02\x03\x04\x05\x06\x07'
+                    b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+                )
+            )
+            with c:
+                key_id = c.register(symmetric_key)
+                c.activate(key_id)
+                c.revoke(
+                    enums.RevocationReasonCode.CESSATION_OF_OPERATION,
+                    key_id
+                )
 
     .. py:method:: set_attribute(unique_identifier=None, **kwargs)
 
@@ -1274,14 +1274,14 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import client
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     c.set_attribute(
-            ...         unique_identifier="1",
-            ...         attribute_name="Sensitive",
-            ...         attribute_value=True
-            ...     )
+            from kmip.pie import client
+            c = client.ProxyKmipClient()
+            with c:
+                c.set_attribute(
+                    unique_identifier="1",
+                    attribute_name="Sensitive",
+                    attribute_value=True
+                )
             '1'
 
     .. py:method:: sign(data, uid=None, cryptographic_parameters=None)
@@ -1309,35 +1309,35 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     public_key_id, private_key_id = c.create_key_pair(
-            ...         enums.CryptographicAlgorithm.RSA,
-            ...         2048,
-            ...         public_usage_mask=[
-            ...             enums.CryptographicUsageMask.VERIFY
-            ...         ],
-            ...         private_usage_mask=[
-            ...             enums.CryptographicUsageMask.SIGN
-            ...         ]
-            ...     )
-            ...     c.activate(public_key_id)
-            ...     c.activate(private_key_id)
-            ...     signature = c.sign(
-            ...         b'This is a signed message.',
-            ...         uid=private_key_id,
-            ...         cryptographic_parameters={
-            ...             'padding_method': enums.PaddingMethod.PSS,
-            ...             'cryptographic_algorithm':
-            ...                 enums.CryptographicAlgorithm.RSA,
-            ...             'hashing_algorithm': enums.HashingAlgorithm.SHA_256
-            ...         }
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            with c:
+                public_key_id, private_key_id = c.create_key_pair(
+                    enums.CryptographicAlgorithm.RSA,
+                    2048,
+                    public_usage_mask=[
+                        enums.CryptographicUsageMask.VERIFY
+                    ],
+                    private_usage_mask=[
+                        enums.CryptographicUsageMask.SIGN
+                    ]
+                )
+                c.activate(public_key_id)
+                c.activate(private_key_id)
+                signature = c.sign(
+                    b'This is a signed message.',
+                    uid=private_key_id,
+                    cryptographic_parameters={
+                        'padding_method': enums.PaddingMethod.PSS,
+                        'cryptographic_algorithm':
+                            enums.CryptographicAlgorithm.RSA,
+                        'hashing_algorithm': enums.HashingAlgorithm.SHA_256
+                    }
+                )
             ...
-            >>> signature
+            signature
             b'...'
 
     .. py:method:: signature_verify(message, signature, uid=None, cryptographic_parameters=None)
@@ -1367,34 +1367,34 @@ Class Documentation
 
         .. code-block:: python
 
-            >>> from kmip.pie import objects
-            >>> from kmip.pie import client
-            >>> from kmip import enums
-            >>> c = client.ProxyKmipClient()
-            >>> with c:
-            ...     public_key_id, private_key_id = c.create_key_pair(
-            ...         enums.CryptographicAlgorithm.RSA,
-            ...         2048,
-            ...         public_usage_mask=[
-            ...             enums.CryptographicUsageMask.VERIFY
-            ...         ],
-            ...         private_usage_mask=[
-            ...             enums.CryptographicUsageMask.SIGN
-            ...         ]
-            ...     )
-            ...     c.activate(public_key_id)
-            ...     c.activate(private_key_id)
-            ...     c.signature_verify(
-            ...         b'This is a signed message.',
-            ...         b'...',
-            ...         uid=public_key_id,
-            ...         cryptographic_parameters={
-            ...             'padding_method': enums.PaddingMethod.PSS,
-            ...             'cryptographic_algorithm':
-            ...                 enums.CryptographicAlgorithm.RSA,
-            ...             'hashing_algorithm': enums.HashingAlgorithm.SHA_256
-            ...         }
-            ...     )
+            from kmip.pie import objects
+            from kmip.pie import client
+            from kmip import enums
+            c = client.ProxyKmipClient()
+            with c:
+                public_key_id, private_key_id = c.create_key_pair(
+                    enums.CryptographicAlgorithm.RSA,
+                    2048,
+                    public_usage_mask=[
+                        enums.CryptographicUsageMask.VERIFY
+                    ],
+                    private_usage_mask=[
+                        enums.CryptographicUsageMask.SIGN
+                    ]
+                )
+                c.activate(public_key_id)
+                c.activate(private_key_id)
+                c.signature_verify(
+                    b'This is a signed message.',
+                    b'...',
+                    uid=public_key_id,
+                    cryptographic_parameters={
+                        'padding_method': enums.PaddingMethod.PSS,
+                        'cryptographic_algorithm':
+                            enums.CryptographicAlgorithm.RSA,
+                        'hashing_algorithm': enums.HashingAlgorithm.SHA_256
+                    }
+                )
             ...
             <ValidityIndicator.VALID: 1>
 
