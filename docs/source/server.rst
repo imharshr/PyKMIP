@@ -45,26 +45,26 @@ different configuration values:
 
 .. code-block:: python
 
-    >>> from kmip.services.server import KmipServer
-    >>> server = KmipServer(
-    ...     hostname='127.0.0.1',
-    ...     port=5696,
-    ...     certificate_path='/path/to/certificate/file/',
-    ...     key_path='/path/to/certificate/key/file/',
-    ...     ca_path='/path/to/ca/certificate/file/',
-    ...     auth_suite='Basic',
-    ...     config_path='/etc/pykmip/server.conf',
-    ...     log_path='/var/log/pykmip/server.log',
-    ...     policy_path='/etc/pykmip/policies',
-    ...     enable_tls_client_auth=True,
-    ...     tls_cipher_suites=[
-    ...         'TLS_RSA_WITH_AES_128_CBC_SHA256',
-    ...         'TLS_RSA_WITH_AES_256_CBC_SHA256',
-    ...         'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384'
-    ...     ],
-    ...     logging_level='DEBUG',
-    ...     database_path='/tmp/pykmip.db'
-    ... )
+    from kmip.services.server import KmipServer
+    server = KmipServer(
+        hostname='127.0.0.1',
+        port=5696,
+        certificate_path='/path/to/certificate/file/',
+        key_path='/path/to/certificate/key/file/',
+        ca_path='/path/to/ca/certificate/file/',
+        auth_suite='Basic',
+        config_path='/etc/pykmip/server.conf',
+        log_path='/var/log/pykmip/server.log',
+        policy_path='/etc/pykmip/policies',
+        enable_tls_client_auth=True,
+        tls_cipher_suites=[
+            'TLS_RSA_WITH_AES_128_CBC_SHA256',
+            'TLS_RSA_WITH_AES_256_CBC_SHA256',
+            'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384'
+        ],
+        logging_level='DEBUG',
+        database_path='/tmp/pykmip.db'
+    )
 
 The different configuration options are defined below:
 
@@ -703,21 +703,21 @@ Creating a symmetric key object would look like this:
 
 .. code-block:: python
 
-    >>> from kmip import enums
-    >>> from kmip.pie.objects import SymmetricKey
-    >>> key = SymmetricKey(
-    ...     enums.CryptographicAlgorithm.AES,
-    ...     128,
-    ...     (
-    ...         b'\x00\x01\x02\x03\x04\x05\x06\x07'
-    ...         b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
-    ...     ),
-    ...     [
-    ...         enums.CryptographicUsageMask.ENCRYPT,
-    ...         enums.CryptographicUsageMask.DECRYPT
-    ...     ],
-    ...     "Example Symmetric Key"
-    ... )
+    from kmip import enums
+    from kmip.pie.objects import SymmetricKey
+    key = SymmetricKey(
+        enums.CryptographicAlgorithm.AES,
+        128,
+        (
+            b'\x00\x01\x02\x03\x04\x05\x06\x07'
+            b'\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F'
+        ),
+        [
+            enums.CryptographicUsageMask.ENCRYPT,
+            enums.CryptographicUsageMask.DECRYPT
+        ],
+        "Example Symmetric Key"
+    )
 
 Public Keys
 ~~~~~~~~~~~
@@ -729,20 +729,20 @@ Creating a public key object would look like this:
 
 .. code-block:: python
 
-    >>> from kmip import enums
-    >>> from kmip.pie.objects import PublicKey
-    >>> key = PublicKey(
-    ...     enums.CryptographicAlgorithm.RSA,
-    ...     2048,
-    ...     (
-    ...         b'\x30\x82\x01\x0A\x02\x82\x01\x01...'
-    ...     ),
-    ...     enums.KeyFormatType.X_509,
-    ...     [
-    ...         enums.CryptographicUsageMask.VERIFY
-    ...     ],
-    ...     "Example Public Key"
-    ... )
+    from kmip import enums
+    from kmip.pie.objects import PublicKey
+    key = PublicKey(
+        enums.CryptographicAlgorithm.RSA,
+        2048,
+        (
+            b'\x30\x82\x01\x0A\x02\x82\x01\x01...'
+        ),
+        enums.KeyFormatType.X_509,
+        [
+            enums.CryptographicUsageMask.VERIFY
+        ],
+        "Example Public Key"
+    )
 
 Private Keys
 ~~~~~~~~~~~~
@@ -755,20 +755,20 @@ Creating a private key object would look like this:
 
 .. code-block:: python
 
-    >>> from kmip import enums
-    >>> from kmip.pie.objects import PrivateKey
-    >>> key = PrivateKey(
-    ...     enums.CryptographicAlgorithm.RSA,
-    ...     2048,
-    ...     (
-    ...         b'\x30\x82\x04\xA5\x02\x01\x00\x02...'
-    ...     ),
-    ...     enums.KeyFormatType.PKCS_8,
-    ...     [
-    ...         enums.CryptographicUsageMask.SIGN
-    ...     ],
-    ...     "Example Private Key"
-    ... )
+    from kmip import enums
+    from kmip.pie.objects import PrivateKey
+    key = PrivateKey(
+        enums.CryptographicAlgorithm.RSA,
+        2048,
+        (
+            b'\x30\x82\x04\xA5\x02\x01\x00\x02...'
+        ),
+        enums.KeyFormatType.PKCS_8,
+        [
+            enums.CryptographicUsageMask.SIGN
+        ],
+        "Example Private Key"
+    )
 
 Split Keys
 ~~~~~~~~~~
@@ -780,18 +780,18 @@ Creating a split key object would look like this:
 
 .. code-block:: python
 
-    >>> from kmip import enums
-    >>> from kmip.pie.objects import SplitKey
-    >>> key = SplitKey(
-    ...     cryptographic_algorithm=enums.CryptographicAlgorithm.AES,
-    ...     cryptographic_length=128,
-    ...     key_value=b'\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF',
-    ...     name="Split Key",
-    ...     split_key_parts=3,
-    ...     key_part_identifier=1,
-    ...     split_key_threshold=3,
-    ...     split_key_method=enums.SplitKeyMethod.XOR
-    ... )
+    from kmip import enums
+    from kmip.pie.objects import SplitKey
+    key = SplitKey(
+        cryptographic_algorithm=enums.CryptographicAlgorithm.AES,
+        cryptographic_length=128,
+        key_value=b'\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF',
+        name="Split Key",
+        split_key_parts=3,
+        key_part_identifier=1,
+        split_key_threshold=3,
+        split_key_method=enums.SplitKeyMethod.XOR
+    )
 
 Certificates
 ~~~~~~~~~~~~
@@ -804,17 +804,17 @@ Creating a certificate object would look like this:
 
 .. code-block:: python
 
-    >>> from kmip import enums
-    >>> from kmip.pie.objects import X509Certificate
-    >>> cert = X509Certificate(
-    ...     (
-    ...         b'\x30\x82\x03\x12\x30\x82\x01\xFA...'
-    ...     ),
-    ...     [
-    ...         enums.CryptographicUsageMask.VERIFY
-    ...     ],
-    ...     "Example X.509 Certificate"
-    ... )
+    from kmip import enums
+    from kmip.pie.objects import X509Certificate
+    cert = X509Certificate(
+        (
+            b'\x30\x82\x03\x12\x30\x82\x01\xFA...'
+        ),
+        [
+            enums.CryptographicUsageMask.VERIFY
+        ],
+        "Example X.509 Certificate"
+    )
 
 Secret Data
 ~~~~~~~~~~~
@@ -825,19 +825,19 @@ Creating a secret data object would look like this:
 
 .. code-block:: python
 
-    >>> from kmip import enums
-    >>> from kmip.pie.objects import SecretData
-    >>> data = SecretData(
-    ...     (
-    ...         b'\x53\x65\x63\x72\x65\x74\x50\x61'
-    ...         b'\x73\x73\x77\x6F\x72\x64'
-    ...     ),
-    ...     enums.SecretDataType.PASSWORD,
-    ...     [
-    ...         enums.CryptographicUsageMask.DERIVE_KEY
-    ...     ],
-    ...     "Example Secret Data Object"
-    ... )
+    from kmip import enums
+    from kmip.pie.objects import SecretData
+    data = SecretData(
+        (
+            b'\x53\x65\x63\x72\x65\x74\x50\x61'
+            b'\x73\x73\x77\x6F\x72\x64'
+        ),
+        enums.SecretDataType.PASSWORD,
+        [
+            enums.CryptographicUsageMask.DERIVE_KEY
+        ],
+        "Example Secret Data Object"
+    )
 
 Opaque Objects
 ~~~~~~~~~~~~~~
@@ -849,16 +849,16 @@ Creating an opaque object would look like this:
 
 .. code-block:: python
 
-    >>> from kmip import enums
-    >>> from kmip.pie.objects import OpaqueObject
-    >>> oo = OpaqueObject(
-    ...     (
-    ...         b'\x53\x65\x63\x72\x65\x74\x50\x61'
-    ...         b'\x73\x73\x77\x6F\x72\x64'
-    ...     ),
-    ...     enums.OpaqueDataType.NONE,
-    ...     "Example Opaque Object"
-    ... )
+    from kmip import enums
+    from kmip.pie.objects import OpaqueObject
+    oo = OpaqueObject(
+        (
+            b'\x53\x65\x63\x72\x65\x74\x50\x61'
+            b'\x73\x73\x77\x6F\x72\x64'
+        ),
+        enums.OpaqueDataType.NONE,
+        "Example Opaque Object"
+    )
 
 Operations
 ----------
